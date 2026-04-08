@@ -1,9 +1,10 @@
-// Copyright 2023 Citra Emulator Project
+// Copyright 2026 Citra Project / Mandarine Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
 #include <algorithm>
 #include <cstdlib>
+#include <cstring>
 #include <string>
 #define SDL_MAIN_HANDLED
 #include <SDL.h>

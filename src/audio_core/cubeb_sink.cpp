@@ -1,8 +1,9 @@
-// Copyright 2018 Citra Emulator Project
+// Copyright 2026 Citra Project / Mandarine Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
 #include <cstdarg>
+#include <cstring>
 #include <mutex>
 #include <vector>
 #include <cubeb/cubeb.h>

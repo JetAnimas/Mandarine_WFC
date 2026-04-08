@@ -1,4 +1,4 @@
-// Copyright 2023 Citra Emulator Project
+// Copyright 2026 Citra Project / Mandarine Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
@@ -14,6 +14,7 @@
 #define VK_USE_PLATFORM_XLIB_KHR
 #endif
 
+#include <cstring>
 #include <memory>
 #include <vector>
 #include <boost/container/static_vector.hpp>
@@ -376,7 +377,8 @@ vk::UniqueDebugUtilsMessengerEXT CreateDebugMessenger(vk::Instance instance) {
                        vk::DebugUtilsMessageTypeFlagBitsEXT::eValidation |
                        vk::DebugUtilsMessageTypeFlagBitsEXT::eDeviceAddressBinding |
                        vk::DebugUtilsMessageTypeFlagBitsEXT::ePerformance,
-        .pfnUserCallback = DebugUtilsCallback,
+        .pfnUserCallback =
+            reinterpret_cast<vk::PFN_DebugUtilsMessengerCallbackEXT>(DebugUtilsCallback),
     };
     return instance.createDebugUtilsMessengerEXTUnique(msg_ci);
 }
@@ -387,7 +389,7 @@ vk::UniqueDebugReportCallbackEXT CreateDebugReportCallback(vk::Instance instance
                  vk::DebugReportFlagBitsEXT::eError |
                  vk::DebugReportFlagBitsEXT::ePerformanceWarning |
                  vk::DebugReportFlagBitsEXT::eWarning,
-        .pfnCallback = DebugReportCallback,
+        .pfnCallback = reinterpret_cast<vk::PFN_DebugReportCallbackEXT>(DebugReportCallback),
     };
     return instance.createDebugReportCallbackEXTUnique(callback_ci);
 }

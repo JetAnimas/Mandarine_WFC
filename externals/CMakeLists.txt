@@ -98,7 +98,10 @@ endif()
 
 # Oaknut
 if ("arm64" IN_LIST ARCHITECTURE)
+    set(BUILD_TESTING_SAVE ${BUILD_TESTING})
+    set(BUILD_TESTING OFF)
     add_subdirectory(oaknut EXCLUDE_FROM_ALL)
+    set(BUILD_TESTING ${BUILD_TESTING_SAVE})
 endif()
 
 # Dynarmic
@@ -210,6 +213,7 @@ else()
     set(ZSTD_LEGACY_SUPPORT OFF)
     set(ZSTD_BUILD_PROGRAMS OFF)
     set(ZSTD_BUILD_SHARED OFF)
+    set(ZSTD_BUILD_TESTS OFF)
     add_subdirectory(zstd/build/cmake EXCLUDE_FROM_ALL)
     target_include_directories(libzstd_static INTERFACE $<BUILD_INTERFACE:${CMAKE_SOURCE_DIR}/externals/zstd/lib>)
     add_library(zstd ALIAS libzstd_static)
@@ -358,7 +362,6 @@ if (ENABLE_OPENAL)
         find_package(OpenAL REQUIRED)
         target_link_libraries(OpenAL INTERFACE OpenAL::OpenAL)
     else()
-        set(ALSOFT_EMBED_HRTF_DATA OFF CACHE BOOL "")
         set(ALSOFT_EXAMPLES OFF CACHE BOOL "")
         set(ALSOFT_INSTALL OFF CACHE BOOL "")
         set(ALSOFT_INSTALL_CONFIG OFF CACHE BOOL "")
@@ -375,6 +378,13 @@ if (ENABLE_OPENGL)
     # Glad
     add_subdirectory(glad)
 endif()
+
+# sirit
+add_subdirectory(sirit EXCLUDE_FROM_ALL)
+
+# spirv-tools
+set(SPIRV_SKIP_EXECUTABLES ON)
+add_subdirectory(spirv-tools EXCLUDE_FROM_ALL)
 
 # Vulkan dependencies
 if (ENABLE_VULKAN)
@@ -395,12 +405,8 @@ if (ENABLE_VULKAN)
         set(ENABLE_CTEST OFF CACHE BOOL "")
         set(ENABLE_HLSL OFF CACHE BOOL "")
         set(BUILD_EXTERNAL OFF CACHE BOOL "")
-        set(ALLOW_EXTERNAL_SPIRV_TOOLS ON)
         add_subdirectory(glslang)
     endif()
-
-    # sirit
-    add_subdirectory(sirit EXCLUDE_FROM_ALL)
 
     # VMA
     if(USE_SYSTEM_VMA)
@@ -426,10 +432,6 @@ if (ENABLE_VULKAN)
     else()
         target_include_directories(vulkan-headers SYSTEM INTERFACE ./vulkan-headers/include)
     endif()
-
-    # SPIRV-Tools
-    add_library(SPIRV-Tools INTERFACE)
-    target_include_directories(SPIRV-Tools SYSTEM INTERFACE ./SPIRV-Tools/include)
 
     # adrenotools
     if (ANDROID AND "arm64" IN_LIST ARCHITECTURE)

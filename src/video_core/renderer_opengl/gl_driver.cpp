@@ -1,7 +1,8 @@
-// Copyright 2022 Citra Emulator Project
+// Copyright 2026 Citra Project / Mandarine Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
+#include <cstring>
 #include <glad/glad.h>
 #include "common/assert.h"
 #include "common/settings.h"

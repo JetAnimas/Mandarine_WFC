@@ -1,9 +1,14 @@
-// Copyright 2018 Citra Emulator Project
+// Copyright 2026 Citra Project / Mandarine Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
 #include <span>
 #include <unordered_map>
+
+#if defined(__GNUC__) || defined(__clang__)
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+#endif
+
 #include "common/assert.h"
 #include "common/file_util.h"
 #include "common/logging/log.h"
@@ -175,10 +180,19 @@ bool FFmpegVideoStream::Init(FFmpegMuxer& muxer, const Layout::FramebufferLayout
     auto pixel_format_opt = FFmpeg::av_dict_get(options, "pixel_format", nullptr, 0);
     if (pixel_format_opt) {
         sw_pixel_format = FFmpeg::av_get_pix_fmt(pixel_format_opt->value);
-    } else if (codec->pix_fmts) {
-        sw_pixel_format = GetPixelFormat(codec_context.get(), codec->pix_fmts);
     } else {
-        sw_pixel_format = AV_PIX_FMT_YUV420P;
+#if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(61, 13, 100)
+        const AVPixelFormat* pix_fmts = nullptr;
+        FFmpeg::avcodec_get_supported_config(nullptr, codec, AV_CODEC_CONFIG_PIX_FORMAT, 0,
+                                             reinterpret_cast<const void**>(&pix_fmts), nullptr);
+#else
+        const AVPixelFormat* pix_fmts = codec->pix_fmts;
+#endif
+        if (pix_fmts) {
+            sw_pixel_format = GetPixelFormat(codec_context.get(), pix_fmts);
+        } else {
+            sw_pixel_format = AV_PIX_FMT_YUV420P;
+        }
     }
     if (sw_pixel_format == AV_PIX_FMT_NONE) {
         // This encoder requires HW context configuration.
@@ -285,11 +299,22 @@ void FFmpegVideoStream::ProcessFrame(VideoFrame& frame) {
 }
 
 bool FFmpegVideoStream::InitHWContext(const AVCodec* codec) {
-    for (std::size_t i = 0; codec->pix_fmts[i] != AV_PIX_FMT_NONE; ++i) {
+#if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(61, 13, 100)
+    const AVPixelFormat* hw_pix_fmts = nullptr;
+    FFmpeg::avcodec_get_supported_config(nullptr, codec, AV_CODEC_CONFIG_PIX_FORMAT, 0,
+                                         reinterpret_cast<const void**>(&hw_pix_fmts), nullptr);
+#else
+    const AVPixelFormat* hw_pix_fmts = codec->pix_fmts;
+#endif
+    if (!hw_pix_fmts) {
+        LOG_ERROR(Render, "Failed to find a usable HW pixel format");
+        return false;
+    }
+    for (std::size_t i = 0; hw_pix_fmts[i] != AV_PIX_FMT_NONE; ++i) {
         const AVCodecHWConfig* config;
         for (int j = 0;; ++j) {
             config = FFmpeg::avcodec_get_hw_config(codec, j);
-            if (!config || config->pix_fmt == codec->pix_fmts[i]) {
+            if (!config || config->pix_fmt == hw_pix_fmts[i]) {
                 break;
             }
         }
@@ -303,7 +328,7 @@ bool FFmpegVideoStream::InitHWContext(const AVCodec* codec) {
             continue;
         }
 
-        codec_context->pix_fmt = codec->pix_fmts[i];
+        codec_context->pix_fmt = hw_pix_fmts[i];
 
         // Create HW device context
         AVBufferRef* hw_device_context;
@@ -351,7 +376,7 @@ bool FFmpegVideoStream::InitHWContext(const AVCodec* codec) {
 
         AVHWFramesContext* hw_frames_context =
             reinterpret_cast<AVHWFramesContext*>(hw_frames_context_ref->data);
-        hw_frames_context->format = codec->pix_fmts[i];
+        hw_frames_context->format = hw_pix_fmts[i];
         hw_frames_context->sw_format = sw_pixel_format;
         hw_frames_context->width = codec_context->width;
         hw_frames_context->height = codec_context->height;
@@ -468,16 +493,28 @@ bool FFmpegAudioStream::Init(FFmpegMuxer& muxer) {
     // Configure audio codec context
     codec_context->codec_type = AVMEDIA_TYPE_AUDIO;
     codec_context->bit_rate = Settings::values.audio_bitrate;
-    if (codec->sample_fmts) {
-        codec_context->sample_fmt = codec->sample_fmts[0];
+#if LIBAVCODEC_VERSION_INT >= AV_VERSION_INT(61, 13, 100)
+    const AVSampleFormat* sample_fmts = nullptr;
+    FFmpeg::avcodec_get_supported_config(nullptr, codec, AV_CODEC_CONFIG_SAMPLE_FORMAT, 0,
+                                         reinterpret_cast<const void**>(&sample_fmts), nullptr);
+    const int* supported_samplerates = nullptr;
+    FFmpeg::avcodec_get_supported_config(nullptr, codec, AV_CODEC_CONFIG_SAMPLE_RATE, 0,
+                                         reinterpret_cast<const void**>(&supported_samplerates),
+                                         nullptr);
+#else
+    const AVSampleFormat* sample_fmts = codec->sample_fmts;
+    const int* supported_samplerates = codec->supported_samplerates;
+#endif
+    if (sample_fmts) {
+        codec_context->sample_fmt = sample_fmts[0];
     } else {
         codec_context->sample_fmt = AV_SAMPLE_FMT_S16P;
     }
 
-    if (codec->supported_samplerates) {
-        codec_context->sample_rate = codec->supported_samplerates[0];
+    if (supported_samplerates) {
+        codec_context->sample_rate = supported_samplerates[0];
         // Prefer native sample rate if supported
-        const int* ptr = codec->supported_samplerates;
+        const int* ptr = supported_samplerates;
         while ((*ptr)) {
             if ((*ptr) == AudioCore::native_sample_rate) {
                 codec_context->sample_rate = AudioCore::native_sample_rate;
@@ -956,7 +993,11 @@ std::string FormatDefaultValue(const AVOption* option,
     case AV_OPT_TYPE_VIDEO_RATE: {
         return ToStdString(option->default_val.str);
     }
+#if LIBAVUTIL_VERSION_INT >= AV_VERSION_INT(57, 28, 100)
+    case AV_OPT_TYPE_CHLAYOUT: {
+#else
     case AV_OPT_TYPE_CHANNEL_LAYOUT: {
+#endif
         return fmt::format("{:#x}", option->default_val.i64);
     }
     default:

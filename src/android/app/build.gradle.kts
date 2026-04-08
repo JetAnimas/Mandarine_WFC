@@ -1,4 +1,4 @@
-// Copyright 2025 Citra Project / Mandarine Project
+// Copyright 2026 Citra Project / Mandarine Project
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
@@ -78,7 +78,9 @@ android {
                     "-DENABLE_QT=0", // Don't use QT
                     "-DENABLE_SDL2=0", // Don't use SDL
                     "-DANDROID_ARM_NEON=true", // cryptopp requires Neon to work
-                    "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON"
+                    "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON",
+                    "-DALSOFT_CPUEXT_SSE=OFF" // Disable OpenAL SSE intrinsics on Android becuase clang 18 rejects _mm_load_ps
+
                 )
             }
         }
@@ -149,7 +151,7 @@ android {
 
     externalNativeBuild {
         cmake {
-            version = "3.22.1"
+            version = "4.1.2"
             path = file("../../../CMakeLists.txt")
         }
     }
