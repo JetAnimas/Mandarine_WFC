@@ -24,6 +24,10 @@ include(CMakeDependentOption)
 
 project(mandarine LANGUAGES C CXX ASM)
 
+# disable Xbyak strict size checking on memory and registers as dynarmic generates
+# mismatched types during spills
+add_compile_definitions(XBYAK_STRICT_CHECK_MEM_REG_SIZE=0)
+
 # Some submodules like to pick their own default build type if not specified.
 # Make sure we default to Release build type always, unless the generator has custom types.
 if (NOT CMAKE_BUILD_TYPE AND NOT CMAKE_CONFIGURATION_TYPES)
