@@ -61,7 +61,7 @@ android {
 
     defaultConfig {
         // TODO If this is ever modified, change application_id in strings.xml
-        applicationId = "io.github.mandarine3ds.mandarine"
+        applicationId = "io.github.ptyfyre.mandarine.neo"
         minSdk = 28
         targetSdk = 35
         versionCode = autoVersion

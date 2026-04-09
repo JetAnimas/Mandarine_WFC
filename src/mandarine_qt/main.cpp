@@ -3524,13 +3524,13 @@ void GMainWindow::UpdateWindowTitle() {
     const QString full_name = QString::fromUtf8(Common::g_build_fullname);
 
     if (game_title_long.isEmpty()) {
-        setWindowTitle(QStringLiteral("Mandarine %1").arg(full_name));
+        setWindowTitle(QStringLiteral("Mandarine-Neo %1").arg(full_name));
     } else {
-        setWindowTitle(QStringLiteral("Mandarine %1 | %2").arg(full_name, game_title_long));
-        render_window->setWindowTitle(QStringLiteral("Mandarine %1 | %2 | %3")
+        setWindowTitle(QStringLiteral("Mandarine-Neo %1 | %2").arg(full_name, game_title_long));
+        render_window->setWindowTitle(QStringLiteral("Mandarine-Neo %1 | %2 | %3")
                                           .arg(full_name, game_title_long, tr("Primary Window")));
         secondary_window->setWindowTitle(
-            QStringLiteral("Mandarine %1 | %2 | %3")
+            QStringLiteral("Mandarine-Neo %1 | %2 | %3")
                 .arg(full_name, game_title_long, tr("Secondary Window")));
     }
 }

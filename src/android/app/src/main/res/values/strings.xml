@@ -2,7 +2,7 @@
 <resources>
 
     <!-- General application strings -->
-    <string name="app_name" translatable="false">Mandarine</string>
+    <string name="app_name" translatable="false">Mandarine-Neo</string>
     <string name="app_disclaimer">This software will run games for the Nintendo 3DS handheld game console. No game titles are included.\n\nBefore you can begin with emulating, please select a folder to store Mandarine\'s user data in.\n\nWhat\'s this:\n<a href='https://github.com/citra-emu/citra/wiki/Citra-Android-user-data-and-storage'>Wiki - Mandarine Android user data and storage</a></string>
     <string name="app_notification_channel_name" translatable="false">Mandarine</string>
     <string name="app_notification_channel_id" translatable="false">Mandarine</string>
@@ -49,15 +49,15 @@
     <string name="copied_to_clipboard">Copied to clipboard</string>
     <string name="mandarine_description">An open-source 3DS emulator based on Citra</string>
     <string name="contributors">Credits</string>
-    <string name="contributors_description">Contributors who made Mandarine possible</string>
-    <string name="contributors_link" translatable="false">https://github.com/mandarine3ds/mandarine/graphs/contributors</string>
-    <string name="licenses_description">Projects that make Mandarine for Android possible</string>
+    <string name="contributors_description">Contributors who made Mandarine-Neo possible</string>
+    <string name="contributors_link" translatable="false">https://github.com/ptyfyre/mandarine-neo/graphs/contributors</string>
+    <string name="licenses_description">Projects that make Mandarine-Neo for Android possible</string>
     <string name="build">Build</string>
     <string name="licenses">Licenses</string>
     <string name="favorite">Favorites</string>
     <string name="support_link" translatable="false">https://discord.gg/8xjMHWEuf6</string>
     <string name="website_link" translatable="false">https://mandarine3ds.github.io/</string>
-    <string name="github_link" translatable="false">https://github.com/mandarine3ds</string>
+    <string name="github_link" translatable="false">https://github.com/ptyfyre/mandarine-neo</string>
 
     <!-- Setup strings -->
     <string name="welcome">Welcome!</string>
