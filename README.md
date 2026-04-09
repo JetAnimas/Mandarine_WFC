@@ -1,28 +1,29 @@
 <h1 align="center">
-  <img src="https://github.com/mandarine3ds/mandarine/blob/master/dist/mandarine.svg" alt="mandarine" width="188"/>
+  <img src="https://github.com/ptyfyre/mandarine-neo/blob/neo/dist/mandarine.svg" alt="mandarine" width="188"/>
 </p>
 <p align="center" style="font-size:144px;">
-  <strong>Mandarine</strong>
+  <strong>Mandarine-Neo</strong>
 </h1>
 
 <p align="center">
-  <strong>A Citra fork with new features and hacks which are experimetnal and may not be present upstream. </strong>
-  </strong>Feel free to download Mandarine and test it, if you run into any bugs please open an issue on GitHub or contact us on Discord</strong>
+  <strong>A continuation of the "legacy" a.k.a the original branch of the Mandarine3DS emulator.</strong>
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/github/downloads/mandarine3ds/mandarine/total" alt="GitHub all releases"/>
-  <a href="https://github.com/mandarine3ds/mandarine/releases/latest">
+  <img src="https://img.shields.io/github/downloads/ptyfyre/mandarine-neo/total" alt="GitHub all releases"/>
+  <a href="https://github.com/ptyfyre/mandarine-neo/releases/latest">
     <img src="https://img.shields.io/badge/Download-Latest_Release-2ea44f?logo=github&logoColor=white" alt="Download - Latest Release"/>
-  </a>
-  <br>
-  <a href="https://discord.gg/8xjMHWEuf6">
-    <img src="https://dcbadge.limes.pink/api/server/8xjMHWEuf6" alt="Discord"/>
-  </a>
 </p>
 
+### Why should I use this fork over the original?
 
-# Installation
+The original is completely abandoned, the legacy branch hasn't been updated since over a year and the master branch is just an outdated snapshot of Azahar. This fork contains the features which were added after the 1.2.1 release on the legacy branch. 
+
+### Cool but, Why not Azahar? Isn't it more up to date?
+
+Correct. Azahar is still the reccomended choice for most people, however if you want an alternative which may have exclusive features and hacks which are not present on Azahar, feel free to try this fork.
+
+## Installation
 
 Grab the appropriate release for your operating system of choice from the `Releases` section of the page
 
@@ -31,7 +32,7 @@ Grab the appropriate release for your operating system of choice from the `Relea
 
 ---
 
-# Recommended specs
+## Recommended specs
 
 ## 🖥️ Desktop
 
@@ -50,10 +51,3 @@ CPU: Snapdragon 835 SoC or better
 GPU: OpenGL ES 3.2 or Vulkan 1.1 support
 Memory: 2GB of RAM. 4GB is recommended
 ```
-
-# Contributions
-
-if you know what you're doing, feel free to open a PR, we will review it in due time. 
-
-> [!WARNING]
-> Keep in mind to properly test your chnages before opening a PR and please follow respect code formatting and license headers
