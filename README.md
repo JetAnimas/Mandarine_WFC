@@ -6,7 +6,7 @@
 </h1>
 
 <p align="center">
-  <strong>A continuation of the "legacy" a.k.a the original branch of the Mandarine3DS emulator.</strong>
+  <strong>An alternative Citra fork with experimental hacks and features</strong>
 </p>
 
 <p align="center">
@@ -15,11 +15,11 @@
     <img src="https://img.shields.io/badge/Download-Latest_Release-2ea44f?logo=github&logoColor=white" alt="Download - Latest Release"/>
 </p>
 
-### Why should I use this fork over the original?
+### About
 
-The original is completely abandoned, the legacy branch hasn't been updated since over a year and the master branch is just an outdated snapshot of Azahar. This fork contains the features which were added after the 1.2.1 release on the legacy branch. 
+A Citra fork with new features and hacks which are experimental and may not be present in Azahar.
 
-### Cool but, Why not Azahar? Isn't it more up to date?
+### Azahar; Isn't it more up to date?
 
 Correct. Azahar is still the reccomended choice for most people, however if you want an alternative which may have exclusive features and hacks which are not present on Azahar, feel free to try this fork.
 
