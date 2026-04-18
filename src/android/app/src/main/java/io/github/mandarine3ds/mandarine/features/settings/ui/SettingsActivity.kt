@@ -37,6 +37,7 @@ import io.github.mandarine3ds.mandarine.features.settings.utils.SettingsFile
 import io.github.mandarine3ds.mandarine.utils.SystemSaveGame
 import io.github.mandarine3ds.mandarine.utils.DirectoryInitialization
 import io.github.mandarine3ds.mandarine.utils.InsetsHelper
+import io.github.mandarine3ds.mandarine.utils.RefreshRateUtil
 import io.github.mandarine3ds.mandarine.utils.ThemeUtil
 
 class SettingsActivity : AppCompatActivity(), SettingsActivityView {
@@ -49,6 +50,7 @@ class SettingsActivity : AppCompatActivity(), SettingsActivityView {
     override val settings: Settings get() = settingsViewModel.settings
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        RefreshRateUtil.enforceRefreshRate(this)
         ThemeUtil.setTheme(this)
 
         super.onCreate(savedInstanceState)

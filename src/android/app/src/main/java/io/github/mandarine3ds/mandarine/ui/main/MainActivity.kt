@@ -54,6 +54,7 @@ import io.github.mandarine3ds.mandarine.utils.ThemeUtil
 import io.github.mandarine3ds.mandarine.viewmodel.GamesViewModel
 import io.github.mandarine3ds.mandarine.viewmodel.HomeViewModel
 import io.github.mandarine3ds.mandarine.dialogs.NetPlayDialog
+import io.github.mandarine3ds.mandarine.utils.RefreshRateUtil
 
 class MainActivity : AppCompatActivity(), ThemeProvider {
     private lateinit var binding: ActivityMainBinding
@@ -65,6 +66,8 @@ class MainActivity : AppCompatActivity(), ThemeProvider {
     override var themeId: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        RefreshRateUtil.enforceRefreshRate(this)
+
         val splashScreen = installSplashScreen()
         splashScreen.setKeepOnScreenCondition {
             !DirectoryInitialization.areMandarineDirectoriesReady() &&

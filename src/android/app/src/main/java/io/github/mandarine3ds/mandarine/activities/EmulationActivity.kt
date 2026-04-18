@@ -51,6 +51,7 @@ import io.github.mandarine3ds.mandarine.features.settings.model.IntSetting
 import androidx.core.os.BundleCompat
 import io.github.mandarine3ds.mandarine.utils.PlayTimeTracker
 import io.github.mandarine3ds.mandarine.model.Game
+import io.github.mandarine3ds.mandarine.utils.RefreshRateUtil
 
 class EmulationActivity : AppCompatActivity() {
     private val preferences: SharedPreferences
@@ -75,6 +76,7 @@ class EmulationActivity : AppCompatActivity() {
         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        RefreshRateUtil.enforceRefreshRate(this, sixtyHz = true)
         ThemeUtil.setTheme(this)
 
         settingsViewModel.settings.loadSettings()
