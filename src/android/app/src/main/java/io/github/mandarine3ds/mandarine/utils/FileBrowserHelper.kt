@@ -13,7 +13,7 @@ object FileBrowserHelper {
         result: Intent,
         context: Context,
         extension: List<String?>
-    ): Array<String>? {
+    ): Array<String?> ? {
         val clipData = result.clipData
         val files: MutableList<DocumentFile?> = ArrayList()
         if (clipData == null) {
@@ -37,7 +37,7 @@ object FileBrowserHelper {
                     }
                 }
             }
-            return if (filePaths.isEmpty()) null else filePaths.toTypedArray<String>()
+            return if (filePaths.isEmpty()) null else filePaths.toTypedArray<String?>()
         }
         return null
     }

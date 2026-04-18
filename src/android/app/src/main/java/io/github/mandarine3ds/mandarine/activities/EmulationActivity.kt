@@ -302,7 +302,7 @@ class EmulationActivity : AppCompatActivity() {
         return NativeLibrary.onGamePadEvent(input.descriptor, button, action)
     }
 
-    private fun onAmiiboSelected(selectedFile: String) {
+    private fun onAmiiboSelected(selectedFile: String?) {
         val success = NativeLibrary.loadAmiibo(selectedFile)
         if (!success) {
             MessageDialogFragment.newInstance(

@@ -2,15 +2,13 @@
 // Licensed under GPLv2 or any later version
 // Refer to the license.txt file included.
 
-import android.databinding.tool.ext.capitalizeUS
 import de.undercouch.gradle.tasks.download.Download
 
 plugins {
     id("com.android.application")
-    id("org.jetbrains.kotlin.android")
-    id("de.undercouch.download") version "5.6.0"
+    id("de.undercouch.download") version "5.7.0"
     id("kotlin-parcelize")
-    kotlin("plugin.serialization") version "2.0.0"
+    kotlin("plugin.serialization") version "2.3.20"
     id("androidx.navigation.safeargs.kotlin")
 }
 
@@ -20,24 +18,20 @@ plugins {
  * next 680 years.
  */
 val autoVersion = (((System.currentTimeMillis() / 1000) - 1451606400) / 10).toInt()
-val abiFilter = listOf("arm64-v8a", "x86_64")
+val abiFilter = listOf("arm64-v8a")
 
-val downloadedJniLibsPath = "${buildDir}/downloadedJniLibs"
+val downloadedJniLibsPath = "${layout.buildDirectory.get()}/downloadedJniLibs"
 
 @Suppress("UnstableApiUsage")
 android {
     namespace = "io.github.mandarine3ds.mandarine"
-    compileSdk = 35
+    compileSdk = 37
 
     ndkVersion = "27.0.12077973"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_17
         targetCompatibility = JavaVersion.VERSION_17
-    }
-
-    kotlinOptions {
-        jvmTarget = "17"
     }
 
     androidResources {
@@ -51,6 +45,7 @@ android {
 
     buildFeatures {
         viewBinding = true
+        buildConfig = true
     }
 
     lint {
@@ -63,7 +58,7 @@ android {
         // TODO If this is ever modified, change application_id in strings.xml
         applicationId = "io.github.ptyfyre.mandarine.neo"
         minSdk = 28
-        targetSdk = 35
+        targetSdk = 37
         versionCode = autoVersion
         versionName = getGitVersion()
 
@@ -79,7 +74,7 @@ android {
                     "-DENABLE_SDL2=0", // Don't use SDL
                     "-DANDROID_ARM_NEON=true", // cryptopp requires Neon to work
                     "-DANDROID_SUPPORT_FLEXIBLE_PAGE_SIZES=ON",
-                    "-DALSOFT_CPUEXT_SSE=OFF" // Disable OpenAL SSE intrinsics on Android becuase clang 18 rejects _mm_load_ps
+                    "-DALSOFT_CPUEXT_SSE=OFF" // Disable OpenAL SSE intrinsics on Android because clang 18 rejects _mm_load_ps
 
                 )
             }
@@ -113,7 +108,7 @@ android {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
@@ -130,7 +125,7 @@ android {
             isDebuggable = true
             isJniDebuggable = true
             proguardFiles(
-                getDefaultProguardFile("proguard-android.txt"),
+                getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
             isDefault = true
@@ -159,43 +154,42 @@ android {
     sourceSets {
         named("main") {
             // Set up path for downloaded native libraries
-            jniLibs.srcDir(downloadedJniLibsPath)
-        }
+            jniLibs.directories.add(downloadedJniLibsPath)        }
     }
     buildToolsVersion = "35.0.0"
 }
 
 dependencies {
-    implementation("androidx.recyclerview:recyclerview:1.3.2")
-    implementation("androidx.activity:activity-ktx:1.9.2")
-    implementation("androidx.fragment:fragment-ktx:1.8.3")
-    implementation("androidx.appcompat:appcompat:1.7.0")
-    implementation("androidx.documentfile:documentfile:1.0.1")
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.8.5")
+    implementation("androidx.recyclerview:recyclerview:1.4.0")
+    implementation("androidx.activity:activity-ktx:1.13.0")
+    implementation("androidx.fragment:fragment-ktx:1.8.9")
+    implementation("androidx.appcompat:appcompat:1.7.1")
+    implementation("androidx.documentfile:documentfile:1.1.0")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.10.0")
     implementation("androidx.slidingpanelayout:slidingpanelayout:1.2.0")
-    implementation("com.google.android.material:material:1.12.0")
-    implementation("androidx.core:core-splashscreen:1.0.1")
-    implementation("androidx.work:work-runtime:2.9.1")
+    implementation("com.google.android.material:material:1.13.0")
+    implementation("androidx.core:core-splashscreen:1.2.0")
+    implementation("androidx.work:work-runtime:2.11.2")
     implementation("org.ini4j:ini4j:0.5.4")
-    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
-    implementation("androidx.navigation:navigation-fragment-ktx:2.8.0")
-    implementation("androidx.navigation:navigation-ui-ktx:2.8.0")
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.2.0")
+    implementation("androidx.navigation:navigation-fragment-ktx:2.9.7")
+    implementation("androidx.navigation:navigation-ui-ktx:2.9.7")
     implementation("info.debatty:java-string-similarity:2.0.0")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.7.2")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.11.0")
     implementation("androidx.preference:preference-ktx:1.2.1")
     implementation("io.coil-kt:coil:2.7.0")
-    implementation("io.ktor:ktor-client-core:3.0.3")
-    implementation("io.ktor:ktor-client-cio:3.0.3")
-    implementation("io.ktor:ktor-client-json:3.0.3")
-    implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.3")
-    implementation("io.ktor:ktor-client-content-negotiation:3.0.3")
-    implementation("io.ktor:ktor-client-logging:3.0.3")
+    implementation("io.ktor:ktor-client-core:3.4.2")
+    implementation("io.ktor:ktor-client-cio:3.4.2")
+    implementation("io.ktor:ktor-client-json:3.4.2")
+    implementation("io.ktor:ktor-serialization-kotlinx-json:3.4.2")
+    implementation("io.ktor:ktor-client-content-negotiation:3.4.2")
+    implementation("io.ktor:ktor-client-logging:3.4.2")
 }
 
 // Download Vulkan Validation Layers from the KhronosGroup GitHub.
 val downloadVulkanValidationLayers = tasks.register<Download>("downloadVulkanValidationLayers") {
-    src("https://github.com/KhronosGroup/Vulkan-ValidationLayers/releases/download/vulkan-sdk-1.3.283.0/android-binaries-1.3.283.0.zip")
-    dest(file("${buildDir}/tmp/Vulkan-ValidationLayers.zip"))
+    src("https://github.com/KhronosGroup/Vulkan-ValidationLayers/releases/download/vulkan-sdk-1.4.341.0/android-binaries-1.4.341.0.zip")
+    dest(file("${layout.buildDirectory.get()}/tmp/Vulkan-ValidationLayers.zip"))
     onlyIfModified(true)
 }
 
@@ -267,18 +261,23 @@ fun runGitCommand(command: ProcessBuilder) : String? {
     }
 }
 
-android.applicationVariants.configureEach {
-    val variant = this
-    val capitalizedName = variant.name.capitalizeUS()
+androidComponents.onVariants { variant ->
+    val capitalizedName = variant.name.replaceFirstChar { it.uppercase() }
 
     val copyTask = tasks.register("copyBundle${capitalizedName}") {
         doLast {
             project.copy {
-                from(variant.outputs.first().outputFile.parentFile)
+                from(layout.buildDirectory.dir("outputs/bundle/${variant.name}"))
+                include("*.aab")
+                into(layout.buildDirectory.dir("bundle"))
+            }
+            project.copy {
+                from(layout.buildDirectory.dir("outputs/apk/${variant.name}"))
                 include("*.apk")
                 into(layout.buildDirectory.dir("bundle"))
             }
         }
     }
-    tasks.named("bundle${capitalizedName}").configure { finalizedBy(copyTask) }
+    tasks.matching { it.name == "bundle${capitalizedName}" }.configureEach { finalizedBy(copyTask) }
+    tasks.matching { it.name == "assemble${capitalizedName}" }.configureEach { finalizedBy(copyTask) }
 }
