@@ -51,3 +51,7 @@ CPU: Snapdragon 835 SoC or better
 GPU: OpenGL ES 3.2 or Vulkan 1.1 support
 Memory: 2GB of RAM. 4GB is recommended
 ```
+
+## Donate
+
+If you like and you're feeling like supporting this project by donating, you can do so here at my [buy me a coffe page!](https://buymeacoffee.com/ptyfyre)
