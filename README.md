@@ -13,6 +13,10 @@
   <img src="https://img.shields.io/github/downloads/ptyfyre/mandarine-neo/total" alt="GitHub all releases"/>
   <a href="https://github.com/ptyfyre/mandarine-neo/releases/latest">
     <img src="https://img.shields.io/badge/Download-Latest_Release-2ea44f?logo=github&logoColor=white" alt="Download - Latest Release"/>
+   <br>
+  <a href="https://discord.gg/P3Jtphr885">
+    <img src="https://dcbadge.limes.pink/api/server/P3Jtphr885" alt="Discord"/>
+  </a>
 </p>
 
 ### About
