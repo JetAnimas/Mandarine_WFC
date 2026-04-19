@@ -10,6 +10,19 @@
 -keep class org.ini4j.spi.IniBuilder
 -keep class org.ini4j.spi.IniFormatter
 
+-keep class io.github.mandarine3ds.mandarine.NativeLibrary { *; }
+-keep class io.github.mandarine3ds.mandarine.NativeLibrary$** { *; }
+-keep class io.github.mandarine3ds.mandarine.features.cheats.model.Cheat { *; }
+-keep class io.github.mandarine3ds.mandarine.model.GameInfo { *; }
+-keep class io.github.mandarine3ds.mandarine.utils.DiskShaderCacheProgress { *; }
+-keep class io.github.mandarine3ds.mandarine.utils.DiskShaderCacheProgress$** { *; }
+-keep class io.github.mandarine3ds.mandarine.utils.CiaInstallWorker { *; }
+-keep class io.github.mandarine3ds.mandarine.camera.StillImageCameraHelper { *; }
+-keep class io.github.mandarine3ds.mandarine.applets.SoftwareKeyboard { *; }
+-keep class io.github.mandarine3ds.mandarine.applets.SoftwareKeyboard$** { *; }
+-keep class io.github.mandarine3ds.mandarine.applets.MiiSelector { *; }
+-keep class io.github.mandarine3ds.mandarine.applets.MiiSelector$** { *; }
+
 # Suppress warnings for R8
 -dontwarn org.bouncycastle.jsse.BCSSLParameters
 -dontwarn org.bouncycastle.jsse.BCSSLSocket
